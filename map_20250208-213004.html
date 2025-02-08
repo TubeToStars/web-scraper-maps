@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5dc9046ad38f6686d98bc109730e6157 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_5dc9046ad38f6686d98bc109730e6157" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_5dc9046ad38f6686d98bc109730e6157 = L.map(
+                "map_5dc9046ad38f6686d98bc109730e6157",
+                {
+                    center: [48.7278158, 9.1477922],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d1cb1990bb2291e23a7b46fbf2bcd8d3 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d1cb1990bb2291e23a7b46fbf2bcd8d3.addTo(map_5dc9046ad38f6686d98bc109730e6157);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86 =
+                    new L.featureGroup().addTo(
+                        map_5dc9046ad38f6686d98bc109730e6157
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86;
+            var draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86 = new L.Control.Draw(
+                options
+            ).addTo( map_5dc9046ad38f6686d98bc109730e6157 );
+            map_5dc9046ad38f6686d98bc109730e6157.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86.addLayer(layer);
+            });
+            map_5dc9046ad38f6686d98bc109730e6157.on('draw:created', function(e) {
+                drawnItems_draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_04f42b06ca92e61ee8c7a5fcbe8b4f86.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_690cd224cd1917f4a20b2fcd96f576da = L.marker(
+                [48.7278158, 9.1477922],
+                {
+}
+            ).addTo(map_5dc9046ad38f6686d98bc109730e6157);
+        
+    
+        var popup_0f68895a26df12149fa5f7b543b36739 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_21ef9b0cdd1005867a323adce4f48208 = $(`<div id="html_21ef9b0cdd1005867a323adce4f48208" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/f5/f5a5bd48-8661-4972-a99d-f951ffe65d7a?rule=$_59.AUTO' width='100px'><br>                     <b>Designer Stühle</b><br>                     Price: 15 € VB<br>                     Location: 70567 Stuttgart - Möhringen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/designer-stuehle/2957014444-240-9299?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_0f68895a26df12149fa5f7b543b36739.setContent(html_21ef9b0cdd1005867a323adce4f48208);
+            
+        
+
+        marker_690cd224cd1917f4a20b2fcd96f576da.bindPopup(popup_0f68895a26df12149fa5f7b543b36739)
+        ;
+
+        
+    
+    
+            var marker_58f88dd58139f50ce04adee97379248f = L.marker(
+                [48.2737512, 8.8557862],
+                {
+}
+            ).addTo(map_5dc9046ad38f6686d98bc109730e6157);
+        
+    
+        var popup_1d4995e5d7e66ae1fec4082f338323c3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_39446dcfe0b0447722f0c83446650a58 = $(`<div id="html_39446dcfe0b0447722f0c83446650a58" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/1d/1d70a301-8f3e-4253-8108-174c06793924?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel Retro Plüsch Fell groß</b><br>                     Price: 15 €<br>                     Location: 72336 Baden-Württemberg - Balingen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-retro-pluesch-fell-gross/2985716735-246-8700?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_1d4995e5d7e66ae1fec4082f338323c3.setContent(html_39446dcfe0b0447722f0c83446650a58);
+            
+        
+
+        marker_58f88dd58139f50ce04adee97379248f.bindPopup(popup_1d4995e5d7e66ae1fec4082f338323c3)
+        ;
+
+        
+    
+</script>
+</html>
