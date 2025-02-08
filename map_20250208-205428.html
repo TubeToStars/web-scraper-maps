@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a0ec7bec207bcfd942bb9dd03d427fa2 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a0ec7bec207bcfd942bb9dd03d427fa2" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_a0ec7bec207bcfd942bb9dd03d427fa2 = L.map(
+                "map_a0ec7bec207bcfd942bb9dd03d427fa2",
+                {
+                    center: [52.4373359, 10.90347078154986],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_afd55310d29093348a9aa130bda9f61c = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_afd55310d29093348a9aa130bda9f61c.addTo(map_a0ec7bec207bcfd942bb9dd03d427fa2);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_dbbdc463461b8dc6e394a193468ff5e5 =
+                    new L.featureGroup().addTo(
+                        map_a0ec7bec207bcfd942bb9dd03d427fa2
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_dbbdc463461b8dc6e394a193468ff5e5;
+            var draw_control_dbbdc463461b8dc6e394a193468ff5e5 = new L.Control.Draw(
+                options
+            ).addTo( map_a0ec7bec207bcfd942bb9dd03d427fa2 );
+            map_a0ec7bec207bcfd942bb9dd03d427fa2.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_dbbdc463461b8dc6e394a193468ff5e5.addLayer(layer);
+            });
+            map_a0ec7bec207bcfd942bb9dd03d427fa2.on('draw:created', function(e) {
+                drawnItems_draw_control_dbbdc463461b8dc6e394a193468ff5e5.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_dbbdc463461b8dc6e394a193468ff5e5.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_79f7e93c455fc96b81023e4c1ff9307e = L.marker(
+                [52.4373359, 10.90347078154986],
+                {
+}
+            ).addTo(map_a0ec7bec207bcfd942bb9dd03d427fa2);
+        
+    
+        var popup_0e2ff373659ac72217e4bbf70e413cf1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42ab598b6239c4476b83d17021c076c4 = $(`<div id="html_42ab598b6239c4476b83d17021c076c4" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/f1/f164193b-e389-47a4-991d-3bcb7c82087e?rule=$_59.AUTO' width='100px'><br>                     <b>2 St. Nachttischlampen</b><br>                     Price: 15 € VB<br>                     Location: 38461 Niedersachsen - Danndorf<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/2-st-nachttischlampen/2990509355-82-3083?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_0e2ff373659ac72217e4bbf70e413cf1.setContent(html_42ab598b6239c4476b83d17021c076c4);
+            
+        
+
+        marker_79f7e93c455fc96b81023e4c1ff9307e.bindPopup(popup_0e2ff373659ac72217e4bbf70e413cf1)
+        ;
+
+        
+    
+    
+            var marker_81a9a0b0c7443b320be37bdda459ae15 = L.marker(
+                [52.63227, 13.3307308],
+                {
+}
+            ).addTo(map_a0ec7bec207bcfd942bb9dd03d427fa2);
+        
+    
+        var popup_0eec9084067a9b58c7583d5a44fb1310 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0dc8dd2f4c996cc6b3cb5746e9647857 = $(`<div id="html_0dc8dd2f4c996cc6b3cb5746e9647857" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78e63108-8c9d-415b-81ef-a81c290cf5dd?rule=$_59.AUTO' width='100px'><br>                     <b>Wandleuchte Metall kupferfarben ca. 45x20cm</b><br>                     Price: 2 €<br>                     Location: 16548 Brandenburg - Glienicke/Nordbahn<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/wandleuchte-metall-kupferfarben-ca-45x20cm/2979126985-82-7778?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_0eec9084067a9b58c7583d5a44fb1310.setContent(html_0dc8dd2f4c996cc6b3cb5746e9647857);
+            
+        
+
+        marker_81a9a0b0c7443b320be37bdda459ae15.bindPopup(popup_0eec9084067a9b58c7583d5a44fb1310)
+        ;
+
+        
+    
+    
+            var marker_111e3f979c2caab64149eb2ee16bb7c5 = L.marker(
+                [49.0366265, 8.7068077],
+                {
+}
+            ).addTo(map_a0ec7bec207bcfd942bb9dd03d427fa2);
+        
+    
+        var popup_e6a8e27d9610589bd3769063fa0f5c95 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_24062707907b3db065b84067936ba5cb = $(`<div id="html_24062707907b3db065b84067936ba5cb" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/83/83dc497b-949c-492a-a3ef-abd2efa20206?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel klein</b><br>                     Price: 5 €<br>                     Location: 75015 Baden-Württemberg - Bretten<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-klein/2881313053-246-8800?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_e6a8e27d9610589bd3769063fa0f5c95.setContent(html_24062707907b3db065b84067936ba5cb);
+            
+        
+
+        marker_111e3f979c2caab64149eb2ee16bb7c5.bindPopup(popup_e6a8e27d9610589bd3769063fa0f5c95)
+        ;
+
+        
+    
+</script>
+</html>
