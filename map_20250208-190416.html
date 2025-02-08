@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_64bafa25f1049cc07a6cc40558bb959f {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_64bafa25f1049cc07a6cc40558bb959f" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_64bafa25f1049cc07a6cc40558bb959f = L.map(
+                "map_64bafa25f1049cc07a6cc40558bb959f",
+                {
+                    center: [49.4432174, 7.7689951],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4ae488ce62b534ea7d73ad7811f54117 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4ae488ce62b534ea7d73ad7811f54117.addTo(map_64bafa25f1049cc07a6cc40558bb959f);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_86264874c298d406795645b713e0d2ec =
+                    new L.featureGroup().addTo(
+                        map_64bafa25f1049cc07a6cc40558bb959f
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_86264874c298d406795645b713e0d2ec;
+            var draw_control_86264874c298d406795645b713e0d2ec = new L.Control.Draw(
+                options
+            ).addTo( map_64bafa25f1049cc07a6cc40558bb959f );
+            map_64bafa25f1049cc07a6cc40558bb959f.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_86264874c298d406795645b713e0d2ec.addLayer(layer);
+            });
+            map_64bafa25f1049cc07a6cc40558bb959f.on('draw:created', function(e) {
+                drawnItems_draw_control_86264874c298d406795645b713e0d2ec.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_86264874c298d406795645b713e0d2ec.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_8289bb8e94c077604b15bcb6a1121a6f = L.marker(
+                [49.4432174, 7.7689951],
+                {
+}
+            ).addTo(map_64bafa25f1049cc07a6cc40558bb959f);
+        
+    
+        var popup_88082fe453e8c99fa865723d9c8290fa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_13f559a52878fff7c9c5d75610420600 = $(`<div id="html_13f559a52878fff7c9c5d75610420600" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/72/7280a3b1-cd96-4138-affb-0b0be403d367?rule=$_59.AUTO' width='100px'><br>                     <b>Alter Spiegel</b><br>                     Price: 8 €<br>                     Location: 67657 Rheinland-Pfalz - Kaiserslautern<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/alter-spiegel/2907656320-246-5467?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_88082fe453e8c99fa865723d9c8290fa.setContent(html_13f559a52878fff7c9c5d75610420600);
+            
+        
+
+        marker_8289bb8e94c077604b15bcb6a1121a6f.bindPopup(popup_88082fe453e8c99fa865723d9c8290fa)
+        ;
+
+        
+    
+</script>
+</html>
