@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f8c3d4dc1b7f41ff4237fd34bf5a3361 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_f8c3d4dc1b7f41ff4237fd34bf5a3361" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_f8c3d4dc1b7f41ff4237fd34bf5a3361 = L.map(
+                "map_f8c3d4dc1b7f41ff4237fd34bf5a3361",
+                {
+                    center: [54.2936967, 10.115917106051242],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a0d31685ca194ebd8495fbe4b448d4cd = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a0d31685ca194ebd8495fbe4b448d4cd.addTo(map_f8c3d4dc1b7f41ff4237fd34bf5a3361);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_cb3f034708534ebb5b5f8827d2abae29 =
+                    new L.featureGroup().addTo(
+                        map_f8c3d4dc1b7f41ff4237fd34bf5a3361
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_cb3f034708534ebb5b5f8827d2abae29;
+            var draw_control_cb3f034708534ebb5b5f8827d2abae29 = new L.Control.Draw(
+                options
+            ).addTo( map_f8c3d4dc1b7f41ff4237fd34bf5a3361 );
+            map_f8c3d4dc1b7f41ff4237fd34bf5a3361.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_cb3f034708534ebb5b5f8827d2abae29.addLayer(layer);
+            });
+            map_f8c3d4dc1b7f41ff4237fd34bf5a3361.on('draw:created', function(e) {
+                drawnItems_draw_control_cb3f034708534ebb5b5f8827d2abae29.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_cb3f034708534ebb5b5f8827d2abae29.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_c90d0521d5d79618c5b6fbcb8361b706 = L.marker(
+                [54.2936967, 10.115917106051242],
+                {
+}
+            ).addTo(map_f8c3d4dc1b7f41ff4237fd34bf5a3361);
+        
+    
+        var popup_7c79350e360d47ab43cea12b8c6b7a97 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b4937469155d6f156bbf785331ea7ad9 = $(`<div id="html_b4937469155d6f156bbf785331ea7ad9" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/72/72796d8f-c8b6-411b-9690-cd6109f54b51?rule=$_59.AUTO' width='100px'><br>                     <b>Couchtisch Glas H. R. Giger Unikat Handgeschmiedet bis 23.2.</b><br>                     Price: 28 € VB<br>                     Location: 24113 Kiel - Hassee-Vieburg<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/couchtisch-glas-h-r-giger-unikat-handgeschmiedet-bis-23-2-/2991560346-88-698' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_7c79350e360d47ab43cea12b8c6b7a97.setContent(html_b4937469155d6f156bbf785331ea7ad9);
+            
+        
+
+        marker_c90d0521d5d79618c5b6fbcb8361b706.bindPopup(popup_7c79350e360d47ab43cea12b8c6b7a97)
+        ;
+
+        
+    
+    
+            var marker_b0510cddc70e44e2bcfba4a1792f32e0 = L.marker(
+                [48.9844859, 9.4609301],
+                {
+}
+            ).addTo(map_f8c3d4dc1b7f41ff4237fd34bf5a3361);
+        
+    
+        var popup_a9e99fafc4bb5d937f365e86ec6c0ac1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f38c13f79741087a1643bd96eda8d5fb = $(`<div id="html_f38c13f79741087a1643bd96eda8d5fb" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/35/35dc1a8e-183f-4f77-af8f-cfb14fa5dd25?rule=$_59.AUTO' width='100px'><br>                     <b>6 Tischsets Mod. "Wassermelone" wattiert selbstgefertigte Unikate</b><br>                     Price: 35 €<br>                     Location: 71570 Baden-Württemberg - Oppenweiler<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/6-tischsets-mod-wassermelone-wattiert-selbstgefertigte-unikate/3003269887-90-8362' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_a9e99fafc4bb5d937f365e86ec6c0ac1.setContent(html_f38c13f79741087a1643bd96eda8d5fb);
+            
+        
+
+        marker_b0510cddc70e44e2bcfba4a1792f32e0.bindPopup(popup_a9e99fafc4bb5d937f365e86ec6c0ac1)
+        ;
+
+        
+    
+</script>
+</html>
