@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_506a64557e20fb05cde54b8ae6df33af {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_506a64557e20fb05cde54b8ae6df33af" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_506a64557e20fb05cde54b8ae6df33af = L.map(
+                "map_506a64557e20fb05cde54b8ae6df33af",
+                {
+                    center: [50.1080582, 8.8467138],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_208e974fd54495909f2ee0724e48a03b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_208e974fd54495909f2ee0724e48a03b.addTo(map_506a64557e20fb05cde54b8ae6df33af);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_f77a9014c3e76f12f0fbf721b81b5507 =
+                    new L.featureGroup().addTo(
+                        map_506a64557e20fb05cde54b8ae6df33af
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_f77a9014c3e76f12f0fbf721b81b5507;
+            var draw_control_f77a9014c3e76f12f0fbf721b81b5507 = new L.Control.Draw(
+                options
+            ).addTo( map_506a64557e20fb05cde54b8ae6df33af );
+            map_506a64557e20fb05cde54b8ae6df33af.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_f77a9014c3e76f12f0fbf721b81b5507.addLayer(layer);
+            });
+            map_506a64557e20fb05cde54b8ae6df33af.on('draw:created', function(e) {
+                drawnItems_draw_control_f77a9014c3e76f12f0fbf721b81b5507.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_f77a9014c3e76f12f0fbf721b81b5507.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_65b5bca15f0c2b380378051d8421bdb8 = L.marker(
+                [50.1080582, 8.8467138],
+                {
+}
+            ).addTo(map_506a64557e20fb05cde54b8ae6df33af);
+        
+    
+        var popup_3d721e39fde5ba501e057a60d1136a4d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c38d43895f8fef62d02978093ba3d721 = $(`<div id="html_c38d43895f8fef62d02978093ba3d721" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/67/67627d1a-786a-427d-be5b-5c0332d79766?rule=$_59.AUTO' width='100px'><br>                     <b>Kunststoff Tisch Unikat</b><br>                     Price: 32 €<br>                     Location: 63165 Hessen - Mühlheim am Main<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/kunststoff-tisch-unikat/2888143891-88-4533' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_3d721e39fde5ba501e057a60d1136a4d.setContent(html_c38d43895f8fef62d02978093ba3d721);
+            
+        
+
+        marker_65b5bca15f0c2b380378051d8421bdb8.bindPopup(popup_3d721e39fde5ba501e057a60d1136a4d)
+        ;
+
+        
+    
+    
+            var marker_999377b9c63eb2f63607f7b196fb1434 = L.marker(
+                [48.1800399, 11.5060222],
+                {
+}
+            ).addTo(map_506a64557e20fb05cde54b8ae6df33af);
+        
+    
+        var popup_fb3a8995e54fd7751bdfa4ae5b76e08d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_644bc3839ae9dc72edc012e649161083 = $(`<div id="html_644bc3839ae9dc72edc012e649161083" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/c2/c267cac9-52c4-4302-a892-b0cdbc79be77?rule=$_59.AUTO' width='100px'><br>                     <b>Zwei Tische zu verkaufen, sind Unikate.</b><br>                     Price: 49 €<br>                     Location: 80993 München - Moosach<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/zwei-tische-zu-verkaufen-sind-unikate-/2882670877-88-6446' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_fb3a8995e54fd7751bdfa4ae5b76e08d.setContent(html_644bc3839ae9dc72edc012e649161083);
+            
+        
+
+        marker_999377b9c63eb2f63607f7b196fb1434.bindPopup(popup_fb3a8995e54fd7751bdfa4ae5b76e08d)
+        ;
+
+        
+    
+    
+            var marker_a62d40a101fb6e06dd40b927d5b7e414 = L.marker(
+                [52.7992604, 8.6421452],
+                {
+}
+            ).addTo(map_506a64557e20fb05cde54b8ae6df33af);
+        
+    
+        var popup_ea89ec710891b6632a79ffc47f67bd5a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bffd4a4db94773ecb2b9e9f99342dfa6 = $(`<div id="html_bffd4a4db94773ecb2b9e9f99342dfa6" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/d0/d03e4c7b-dc09-4018-a7df-17ad3f2a2116?rule=$_59.AUTO' width='100px'><br>                     <b>Design Glastisch ***Unikat</b><br>                     Price: 50 €<br>                     Location: 27239 Niedersachsen - Twistringen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/design-glastisch-unikat/2998948519-88-2475' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_ea89ec710891b6632a79ffc47f67bd5a.setContent(html_bffd4a4db94773ecb2b9e9f99342dfa6);
+            
+        
+
+        marker_a62d40a101fb6e06dd40b927d5b7e414.bindPopup(popup_ea89ec710891b6632a79ffc47f67bd5a)
+        ;
+
+        
+    
+</script>
+</html>
