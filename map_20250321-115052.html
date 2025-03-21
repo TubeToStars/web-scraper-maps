@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a7329ccb9f1215cf6f5977c12954d299 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a7329ccb9f1215cf6f5977c12954d299" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_a7329ccb9f1215cf6f5977c12954d299 = L.map(
+                "map_a7329ccb9f1215cf6f5977c12954d299",
+                {
+                    center: [51.217768500000005, 6.9287654607110705],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_88d03e82e5ba11522045e28a18d1210b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_88d03e82e5ba11522045e28a18d1210b.addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_e21fbf127c343e2e0177cdaf849090f8 =
+                    new L.featureGroup().addTo(
+                        map_a7329ccb9f1215cf6f5977c12954d299
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_e21fbf127c343e2e0177cdaf849090f8;
+            var draw_control_e21fbf127c343e2e0177cdaf849090f8 = new L.Control.Draw(
+                options
+            ).addTo( map_a7329ccb9f1215cf6f5977c12954d299 );
+            map_a7329ccb9f1215cf6f5977c12954d299.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_e21fbf127c343e2e0177cdaf849090f8.addLayer(layer);
+            });
+            map_a7329ccb9f1215cf6f5977c12954d299.on('draw:created', function(e) {
+                drawnItems_draw_control_e21fbf127c343e2e0177cdaf849090f8.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_e21fbf127c343e2e0177cdaf849090f8.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_1ca846e8b376d08240e72ddffeb7e3b1 = L.marker(
+                [51.217768500000005, 6.9287654607110705],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_15502bca41cf5e5d04096268d9c8b4fb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b879cbaff758791803634a3253dba30 = $(`<div id="html_5b879cbaff758791803634a3253dba30" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b3/b324de8b-478f-40fb-9a62-f6b64cccb9db?rule=$_59.AUTO' width='100px'><br>                     <b>Indischer Stuhl handgefertigt</b><br>                     Price: 100 € VB<br>                     Location: 40699 Nordrhein-Westfalen - Erkrath<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/indischer-stuhl-handgefertigt/3030351127-88-1401?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_15502bca41cf5e5d04096268d9c8b4fb.setContent(html_5b879cbaff758791803634a3253dba30);
+            
+        
+
+        marker_1ca846e8b376d08240e72ddffeb7e3b1.bindPopup(popup_15502bca41cf5e5d04096268d9c8b4fb)
+        ;
+
+        
+    
+    
+            var marker_8dc2a374ad4c805ac31c64908421446f = L.marker(
+                [51.996310300000005, 7.687343280122443],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_962a3879dd285b8a036721416ec8dbe1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c56ffc83de5a6e6b861fc732f4896047 = $(`<div id="html_c56ffc83de5a6e6b861fc732f4896047" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/10/10088878-0ae7-4dc5-90bf-38b069d1d2d6?rule=$_59.AUTO' width='100px'><br>                     <b>kleiner beistelltisch, selbstgebaut</b><br>                     Price: Zu verschenken<br>                     Location: 48157 Münster (Westfalen) - Gelmer<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/kleiner-beistelltisch-selbstgebaut/3022365846-86-937?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_962a3879dd285b8a036721416ec8dbe1.setContent(html_c56ffc83de5a6e6b861fc732f4896047);
+            
+        
+
+        marker_8dc2a374ad4c805ac31c64908421446f.bindPopup(popup_962a3879dd285b8a036721416ec8dbe1)
+        ;
+
+        
+    
+    
+            var marker_39989ec6b24d4faf01e52a915d925fa2 = L.marker(
+                [51.3817606, 7.006142632471238],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_8c0fc854aebfb4703796480ed668b3f2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_500b7094b1d93a3526d0d6e6a0e5ac04 = $(`<div id="html_500b7094b1d93a3526d0d6e6a0e5ac04" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/1b/1b9e4e0f-2332-48c9-8cbe-75e65128aaa2?rule=$_59.AUTO' width='100px'><br>                     <b>Couchtisch 73x40cm niedrig</b><br>                     Price: 15 € VB<br>                     Location: 45239 Essen - Essen-Werden<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/couchtisch-73x40cm-niedrig/3012248682-88-2044?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_8c0fc854aebfb4703796480ed668b3f2.setContent(html_500b7094b1d93a3526d0d6e6a0e5ac04);
+            
+        
+
+        marker_39989ec6b24d4faf01e52a915d925fa2.bindPopup(popup_8c0fc854aebfb4703796480ed668b3f2)
+        ;
+
+        
+    
+    
+            var marker_ddc2e877dc3fb36430433987507834e7 = L.marker(
+                [51.472521099999994, 6.83115769297418],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_527bae1536ea46d7d3af0acf0b5cdc8b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b233d5a130485d619837fe87a3cd352 = $(`<div id="html_5b233d5a130485d619837fe87a3cd352" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/da/da7b161f-e3f1-46be-8f46-a53617475e5e?rule=$_59.AUTO' width='100px'><br>                     <b>Kiefer Möbel Regal , Ablage , Kommode</b><br>                     Price: 30 €<br>                     Location: 46049 Nordrhein-Westfalen - Oberhausen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/kiefer-moebel-regal-ablage-kommode/3033957558-88-1285?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_527bae1536ea46d7d3af0acf0b5cdc8b.setContent(html_5b233d5a130485d619837fe87a3cd352);
+            
+        
+
+        marker_ddc2e877dc3fb36430433987507834e7.bindPopup(popup_527bae1536ea46d7d3af0acf0b5cdc8b)
+        ;
+
+        
+    
+    
+            var marker_dbeddd31dc7e52a5b846289e027e2d88 = L.marker(
+                [48.322706350000004, 10.843940067792417],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_30a09c1cfabda39ab1e572f97540ee9b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9a6f0f57178e2a611f05b4ebf02bffce = $(`<div id="html_9a6f0f57178e2a611f05b4ebf02bffce" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/84/8474123b-8130-495c-9f4e-3c8851d4d4aa?rule=$_59.AUTO' width='100px'><br>                     <b>Stuhl, antik Optik, retro</b><br>                     Price: 40 € VB<br>                     Location: 86199 Bayern - Augsburg<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/stuhl-antik-optik-retro/2990939283-240-7532?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_30a09c1cfabda39ab1e572f97540ee9b.setContent(html_9a6f0f57178e2a611f05b4ebf02bffce);
+            
+        
+
+        marker_dbeddd31dc7e52a5b846289e027e2d88.bindPopup(popup_30a09c1cfabda39ab1e572f97540ee9b)
+        ;
+
+        
+    
+    
+            var marker_5b0d524c32b7ac9ca764d8e9edb203bd = L.marker(
+                [54.3227085, 10.135555],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_e003ad3d4e0ede682367f5542cb54e40 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28db4186637908fd2365754e9addb08f = $(`<div id="html_28db4186637908fd2365754e9addb08f" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/6b/6b735f19-aeba-4124-952d-46ae4dab19a3?rule=$_59.AUTO' width='100px'><br>                     <b>Bo Design Cube Würfel Regal Holz</b><br>                     Price: 13 €<br>                     Location: 24106 Schleswig-Holstein - Kiel<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/bo-design-cube-wuerfel-regal-holz/3027362739-88-707?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_e003ad3d4e0ede682367f5542cb54e40.setContent(html_28db4186637908fd2365754e9addb08f);
+            
+        
+
+        marker_5b0d524c32b7ac9ca764d8e9edb203bd.bindPopup(popup_e003ad3d4e0ede682367f5542cb54e40)
+        ;
+
+        
+    
+    
+            var marker_08389fedfd64f9541a6f5c8678e77fd3 = L.marker(
+                [48.6153949, 9.5383156],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_ab3eb6ef2a82d21f7058bd273b9640ca = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b31f60c91104171f6efd1c3b10e2bb3 = $(`<div id="html_5b31f60c91104171f6efd1c3b10e2bb3" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/4d/4d0c53fa-3baf-4f9f-abd8-74ead8216638?rule=$_59.AUTO' width='100px'><br>                     <b>Liegestuhl aus Kiefernholz</b><br>                     Price: 25 € VB<br>                     Location: 73235 Baden-Württemberg - Weilheim an der Teck<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/liegestuhl-aus-kiefernholz/3033835357-87-8465?utm_source=copyToPasteboard&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_ab3eb6ef2a82d21f7058bd273b9640ca.setContent(html_5b31f60c91104171f6efd1c3b10e2bb3);
+            
+        
+
+        marker_08389fedfd64f9541a6f5c8678e77fd3.bindPopup(popup_ab3eb6ef2a82d21f7058bd273b9640ca)
+        ;
+
+        
+    
+    
+            var marker_3392300b4be21874905ca3864c0145ea = L.marker(
+                [48.15236275, 11.468434085049713],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_f0f063cab6ac91f4ff852d5b1b2d16f4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b2bb9c91fbbee40d1544e6b4c73bb98d = $(`<div id="html_b2bb9c91fbbee40d1544e6b4c73bb98d" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/f6/f68eaf49-376b-4ad8-95aa-e8faa75aab86?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel Vintage alt eingerahmt Keramik glasiert handbemalt</b><br>                     Price: 8 €<br>                     Location: 80687 München - Pasing-Obermenzing<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-vintage-alt-eingerahmt-keramik-glasiert-handbemalt/3025018735-246-16367?utm_source=copyToPasteboard&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_f0f063cab6ac91f4ff852d5b1b2d16f4.setContent(html_b2bb9c91fbbee40d1544e6b4c73bb98d);
+            
+        
+
+        marker_3392300b4be21874905ca3864c0145ea.bindPopup(popup_f0f063cab6ac91f4ff852d5b1b2d16f4)
+        ;
+
+        
+    
+    
+            var marker_eb1a65bb602041138c7bab923dc90a4f = L.marker(
+                [49.1045328, 10.383792741005871],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_5b85e31da6ca99be9404109153cd8e15 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1777a9044e726b6f2ab1d8974d03e335 = $(`<div id="html_1777a9044e726b6f2ab1d8974d03e335" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/5f/5fd981d3-993d-46c5-9dc7-223ffa23fffb?rule=$_59.AUTO' width='100px'><br>                     <b>bis Sonntag Alter kleiner Spiegel ca 45</b><br>                     Price: 15 €<br>                     Location: 91602 Bayern - Dürrwangen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/bis-sonntag-alter-kleiner-spiegel-ca-45/3002189486-246-9148?utm_source=copyToPasteboard&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_5b85e31da6ca99be9404109153cd8e15.setContent(html_1777a9044e726b6f2ab1d8974d03e335);
+            
+        
+
+        marker_eb1a65bb602041138c7bab923dc90a4f.bindPopup(popup_5b85e31da6ca99be9404109153cd8e15)
+        ;
+
+        
+    
+    
+            var marker_a0403ba21e37e2d9e0731421d233be65 = L.marker(
+                [49.1045328, 10.383792741005871],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_5c257bc5626787bfebebe5f208f82e93 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_edab221e676a16af8fb412de7c79bbff = $(`<div id="html_edab221e676a16af8fb412de7c79bbff" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/5f/5fd981d3-993d-46c5-9dc7-223ffa23fffb?rule=$_59.AUTO' width='100px'><br>                     <b>bis Sonntag Alter kleiner Spiegel ca 45</b><br>                     Price: 15 €<br>                     Location: 91602 Bayern - Dürrwangen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/bis-sonntag-alter-kleiner-spiegel-ca-45/3002189486-246-9148?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_5c257bc5626787bfebebe5f208f82e93.setContent(html_edab221e676a16af8fb412de7c79bbff);
+            
+        
+
+        marker_a0403ba21e37e2d9e0731421d233be65.bindPopup(popup_5c257bc5626787bfebebe5f208f82e93)
+        ;
+
+        
+    
+    
+            var marker_3e441f45b27be54a3721a26975e0be52 = L.marker(
+                [48.15236275, 11.468434085049713],
+                {
+}
+            ).addTo(map_a7329ccb9f1215cf6f5977c12954d299);
+        
+    
+        var popup_908ffedbeb9a72212367f460a55e0d5b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1fdd3e26a17746b6e5cf73d52f23ac18 = $(`<div id="html_1fdd3e26a17746b6e5cf73d52f23ac18" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/f6/f68eaf49-376b-4ad8-95aa-e8faa75aab86?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel Vintage alt eingerahmt Keramik glasiert handbemalt</b><br>                     Price: 8 €<br>                     Location: 80687 München - Pasing-Obermenzing<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-vintage-alt-eingerahmt-keramik-glasiert-handbemalt/3025018735-246-16367?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_908ffedbeb9a72212367f460a55e0d5b.setContent(html_1fdd3e26a17746b6e5cf73d52f23ac18);
+            
+        
+
+        marker_3e441f45b27be54a3721a26975e0be52.bindPopup(popup_908ffedbeb9a72212367f460a55e0d5b)
+        ;
+
+        
+    
+</script>
+</html>
