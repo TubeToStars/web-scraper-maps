@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a = L.map(
+                "map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a",
+                {
+                    center: [51.996310300000005, 7.687343280122443],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b6d2a195101a6cb558ee3a8b90dfcbc2 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_b6d2a195101a6cb558ee3a8b90dfcbc2.addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_e2afe599b23fa36209b8a444724c77f3 =
+                    new L.featureGroup().addTo(
+                        map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_e2afe599b23fa36209b8a444724c77f3;
+            var draw_control_e2afe599b23fa36209b8a444724c77f3 = new L.Control.Draw(
+                options
+            ).addTo( map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a );
+            map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_e2afe599b23fa36209b8a444724c77f3.addLayer(layer);
+            });
+            map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a.on('draw:created', function(e) {
+                drawnItems_draw_control_e2afe599b23fa36209b8a444724c77f3.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_e2afe599b23fa36209b8a444724c77f3.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_bbadde01f124160b4fa1f3e1d23a25b1 = L.marker(
+                [51.996310300000005, 7.687343280122443],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_23b51948335c014f88e255b8ac366c45 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_27c273ad1b326aa410a813957bec3a1f = $(`<div id="html_27c273ad1b326aa410a813957bec3a1f" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/10/10088878-0ae7-4dc5-90bf-38b069d1d2d6?rule=$_59.AUTO' width='100px'><br>                     <b>kleiner beistelltisch, selbstgebaut</b><br>                     Price: Zu verschenken<br>                     Location: 48157 Münster (Westfalen) - Gelmer<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/kleiner-beistelltisch-selbstgebaut/3022365846-86-937?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_23b51948335c014f88e255b8ac366c45.setContent(html_27c273ad1b326aa410a813957bec3a1f);
+            
+        
+
+        marker_bbadde01f124160b4fa1f3e1d23a25b1.bindPopup(popup_23b51948335c014f88e255b8ac366c45)
+        ;
+
+        
+    
+    
+            var marker_6dc79c804c01dbeb1ebda9ff0e5e5d7c = L.marker(
+                [51.217768500000005, 6.9287654607110705],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_18697b9190dda50107bcc1e36768615e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f118e6b900a4aebd38f7019f04067655 = $(`<div id="html_f118e6b900a4aebd38f7019f04067655" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b3/b324de8b-478f-40fb-9a62-f6b64cccb9db?rule=$_59.AUTO' width='100px'><br>                     <b>Indischer Stuhl handgefertigt</b><br>                     Price: 100 € VB<br>                     Location: 40699 Nordrhein-Westfalen - Erkrath<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/indischer-stuhl-handgefertigt/3030351127-88-1401?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_18697b9190dda50107bcc1e36768615e.setContent(html_f118e6b900a4aebd38f7019f04067655);
+            
+        
+
+        marker_6dc79c804c01dbeb1ebda9ff0e5e5d7c.bindPopup(popup_18697b9190dda50107bcc1e36768615e)
+        ;
+
+        
+    
+    
+            var marker_d02e556f910ff571c587275da7bf3bbe = L.marker(
+                [51.3817606, 7.006142632471238],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_32014d5903d4c17573d4dfee4210a152 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_983d686d16311e3e65b3f757a3defd18 = $(`<div id="html_983d686d16311e3e65b3f757a3defd18" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/1b/1b9e4e0f-2332-48c9-8cbe-75e65128aaa2?rule=$_59.AUTO' width='100px'><br>                     <b>Couchtisch 73x40cm niedrig</b><br>                     Price: 15 € VB<br>                     Location: 45239 Essen - Essen-Werden<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/couchtisch-73x40cm-niedrig/3012248682-88-2044?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_32014d5903d4c17573d4dfee4210a152.setContent(html_983d686d16311e3e65b3f757a3defd18);
+            
+        
+
+        marker_d02e556f910ff571c587275da7bf3bbe.bindPopup(popup_32014d5903d4c17573d4dfee4210a152)
+        ;
+
+        
+    
+    
+            var marker_52e0dd73b8cac3f08e41a7f685c1d203 = L.marker(
+                [51.472521099999994, 6.83115769297418],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_32b988ee0f53b5d9a3ee2c7bbb0f1dd7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d525baa5cd90278fe9a183e2a5db1988 = $(`<div id="html_d525baa5cd90278fe9a183e2a5db1988" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/da/da7b161f-e3f1-46be-8f46-a53617475e5e?rule=$_59.AUTO' width='100px'><br>                     <b>Kiefer Möbel Regal , Ablage , Kommode</b><br>                     Price: 30 €<br>                     Location: 46049 Nordrhein-Westfalen - Oberhausen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/kiefer-moebel-regal-ablage-kommode/3033957558-88-1285?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_32b988ee0f53b5d9a3ee2c7bbb0f1dd7.setContent(html_d525baa5cd90278fe9a183e2a5db1988);
+            
+        
+
+        marker_52e0dd73b8cac3f08e41a7f685c1d203.bindPopup(popup_32b988ee0f53b5d9a3ee2c7bbb0f1dd7)
+        ;
+
+        
+    
+    
+            var marker_d847e07cb4d62caab0cc679e1489e7ed = L.marker(
+                [54.7659613, 9.5785877],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_38a4dc4d3820d732694c2c8b16ab6d40 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1b71c9eb5a2c7cbc9204b9f876dff4a0 = $(`<div id="html_1b71c9eb5a2c7cbc9204b9f876dff4a0" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/2d/2d9ca8ba-0186-484e-a4df-09230b955159?rule=$_59.AUTO' width='100px'><br>                     <b>Holzstühle Stapelbar 8 Stück 5€ pro stk !!</b><br>                     Price: 40 €<br>                     Location: 24975 Schleswig-Holstein - Husby<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/holzstuehle-stapelbar-8-stueck-5-pro-stk-/2728998999-88-23308?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_38a4dc4d3820d732694c2c8b16ab6d40.setContent(html_1b71c9eb5a2c7cbc9204b9f876dff4a0);
+            
+        
+
+        marker_d847e07cb4d62caab0cc679e1489e7ed.bindPopup(popup_38a4dc4d3820d732694c2c8b16ab6d40)
+        ;
+
+        
+    
+    
+            var marker_36a0e4a24e9423d213490bb79f6d360e = L.marker(
+                [54.3227085, 10.135555],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_1f238ed1eaf40970dece863c04ae2bb1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8e2993110d0d31d066714d4540077aa9 = $(`<div id="html_8e2993110d0d31d066714d4540077aa9" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/6b/6b735f19-aeba-4124-952d-46ae4dab19a3?rule=$_59.AUTO' width='100px'><br>                     <b>Bo Design Cube Würfel Regal Holz</b><br>                     Price: 13 €<br>                     Location: 24106 Schleswig-Holstein - Kiel<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/bo-design-cube-wuerfel-regal-holz/3027362739-88-707?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_1f238ed1eaf40970dece863c04ae2bb1.setContent(html_8e2993110d0d31d066714d4540077aa9);
+            
+        
+
+        marker_36a0e4a24e9423d213490bb79f6d360e.bindPopup(popup_1f238ed1eaf40970dece863c04ae2bb1)
+        ;
+
+        
+    
+    
+            var marker_52b656567dfba793ceb7f289bcea0aa9 = L.marker(
+                [48.8839157, 12.595577296431395],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_6dc74ce8f90cafbf19eacebc7719dd7c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a90d631d28229e4f9f502afbae91d7e9 = $(`<div id="html_a90d631d28229e4f9f502afbae91d7e9" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b2/b2a7c687-43aa-499e-ba8b-a3adfa51c7a8?rule=$_59.AUTO' width='100px'><br>                     <b>Orig. Bikkembergs Schuhe Halbschuhe Gr. 43</b><br>                     Price: 24 €<br>                     Location: 94315 Bayern - Straubing<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/orig-bikkembergs-schuhe-halbschuhe-gr-43/3020153480-158-7337?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_6dc74ce8f90cafbf19eacebc7719dd7c.setContent(html_a90d631d28229e4f9f502afbae91d7e9);
+            
+        
+
+        marker_52b656567dfba793ceb7f289bcea0aa9.bindPopup(popup_6dc74ce8f90cafbf19eacebc7719dd7c)
+        ;
+
+        
+    
+    
+            var marker_23191d5b26929a03b7b05628d96a8927 = L.marker(
+                [48.322706350000004, 10.843940067792417],
+                {
+}
+            ).addTo(map_fc9a4efd29fd4ecf09dd8f90ce1f2d8a);
+        
+    
+        var popup_098d88006d498649627dd6345f730459 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1d6f211f2448756328e64f20b6db1b2a = $(`<div id="html_1d6f211f2448756328e64f20b6db1b2a" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/84/8474123b-8130-495c-9f4e-3c8851d4d4aa?rule=$_59.AUTO' width='100px'><br>                     <b>Stuhl, antik Optik, retro</b><br>                     Price: 40 € VB<br>                     Location: 86199 Bayern - Augsburg<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/stuhl-antik-optik-retro/2990939283-240-7532?utm_source=notes&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_098d88006d498649627dd6345f730459.setContent(html_1d6f211f2448756328e64f20b6db1b2a);
+            
+        
+
+        marker_23191d5b26929a03b7b05628d96a8927.bindPopup(popup_098d88006d498649627dd6345f730459)
+        ;
+
+        
+    
+</script>
+</html>
