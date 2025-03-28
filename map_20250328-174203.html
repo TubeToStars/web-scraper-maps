@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a81d8da4def11e0b4b7ba5285353bba3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a81d8da4def11e0b4b7ba5285353bba3" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>
+    
+    
+            var map_a81d8da4def11e0b4b7ba5285353bba3 = L.map(
+                "map_a81d8da4def11e0b4b7ba5285353bba3",
+                {
+                    center: [51.217768500000005, 6.9287654607110705],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_239fcbb8bb1905c0d69b939601e335fe = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_239fcbb8bb1905c0d69b939601e335fe.addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_76d96d74032b98a8897a2ae3f7188aa3 =
+                    new L.featureGroup().addTo(
+                        map_a81d8da4def11e0b4b7ba5285353bba3
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_76d96d74032b98a8897a2ae3f7188aa3;
+            var draw_control_76d96d74032b98a8897a2ae3f7188aa3 = new L.Control.Draw(
+                options
+            ).addTo( map_a81d8da4def11e0b4b7ba5285353bba3 );
+            map_a81d8da4def11e0b4b7ba5285353bba3.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_76d96d74032b98a8897a2ae3f7188aa3.addLayer(layer);
+            });
+            map_a81d8da4def11e0b4b7ba5285353bba3.on('draw:created', function(e) {
+                drawnItems_draw_control_76d96d74032b98a8897a2ae3f7188aa3.addLayer(e.layer);
+            });
+
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems_draw_control_76d96d74032b98a8897a2ae3f7188aa3.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var marker_59ecafe261547b49f168569d76e52c78 = L.marker(
+                [51.217768500000005, 6.9287654607110705],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_c909a73547e78def1037634e9767df1e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_227c11076133f77be4d1d006e3ead5ec = $(`<div id="html_227c11076133f77be4d1d006e3ead5ec" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b3/b324de8b-478f-40fb-9a62-f6b64cccb9db?rule=$_59.AUTO' width='100px'><br>                     <b>Indischer Stuhl handgefertigt</b><br>                     Price: 90 € VB<br>                     Location: 40699 Nordrhein-Westfalen - Erkrath<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/indischer-stuhl-handgefertigt/3030351127-88-1401?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_c909a73547e78def1037634e9767df1e.setContent(html_227c11076133f77be4d1d006e3ead5ec);
+            
+        
+
+        marker_59ecafe261547b49f168569d76e52c78.bindPopup(popup_c909a73547e78def1037634e9767df1e)
+        ;
+
+        
+    
+    
+            var marker_d59b32b5df945ea3768865cf24f9d3ca = L.marker(
+                [51.3582945, 7.473296],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_867976e74f49800614fc8a312b26e3d1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a2620f161c4858c2c8daca823e29042 = $(`<div id="html_2a2620f161c4858c2c8daca823e29042" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/da/da30503c-1f89-40d3-b738-507f51f05ea8?rule=$_59.AUTO' width='100px'><br>                     <b>2 Wandlampen mit Murano Fächer Gläser</b><br>                     Price: 20 €<br>                     Location: 58099 Nordrhein-Westfalen - Hagen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/2-wandlampen-mit-murano-faecher-glaeser/3039353128-82-2013?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_867976e74f49800614fc8a312b26e3d1.setContent(html_2a2620f161c4858c2c8daca823e29042);
+            
+        
+
+        marker_d59b32b5df945ea3768865cf24f9d3ca.bindPopup(popup_867976e74f49800614fc8a312b26e3d1)
+        ;
+
+        
+    
+    
+            var marker_1d4221f58443f7487a36c74e7001c548 = L.marker(
+                [51.368523100000004, 6.9395876567659975],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_25966dce02aa4b38312ee96b7633b7b8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0c31ae9bbf893f64ea3e9ea845e2b25a = $(`<div id="html_0c31ae9bbf893f64ea3e9ea845e2b25a" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/91/91a13dce-14dc-4ef8-aa3c-f00ed4136633?rule=$_59.AUTO' width='100px'><br>                     <b>Capiz Muschellampe</b><br>                     Price: 10 €<br>                     Location: 45219 Essen - Essen-Kettwig<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/capiz-muschellampe/3031647154-82-2040?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_25966dce02aa4b38312ee96b7633b7b8.setContent(html_0c31ae9bbf893f64ea3e9ea845e2b25a);
+            
+        
+
+        marker_1d4221f58443f7487a36c74e7001c548.bindPopup(popup_25966dce02aa4b38312ee96b7633b7b8)
+        ;
+
+        
+    
+    
+            var marker_d604dad3936c31cbc36876d1c3464625 = L.marker(
+                [51.179916199999994, 7.102884051789243],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_f921c2c12086cce84f1615a9c7ef2203 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3f5b984c6b24c20d81ae82c5119cec80 = $(`<div id="html_3f5b984c6b24c20d81ae82c5119cec80" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/9e/9ec0344a-25b5-4b0f-9b9b-9b29acde452c?rule=$_59.AUTO' width='100px'><br>                     <b>Besondere Stehlampe</b><br>                     Price: 20 €<br>                     Location: 42651 Nordrhein-Westfalen - Solingen<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/besondere-stehlampe/3031114952-82-2122?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_f921c2c12086cce84f1615a9c7ef2203.setContent(html_3f5b984c6b24c20d81ae82c5119cec80);
+            
+        
+
+        marker_d604dad3936c31cbc36876d1c3464625.bindPopup(popup_f921c2c12086cce84f1615a9c7ef2203)
+        ;
+
+        
+    
+    
+            var marker_253dfd0e0f5acda27f4835f3fa88aeaa = L.marker(
+                [51.47765855, 7.035230389057875],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_dac076bc5c1283f8d4e38768e9ef8198 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_68ba5a3b1832f877c4344deceac76576 = $(`<div id="html_68ba5a3b1832f877c4344deceac76576" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/1b/1b58a4b6-6ae3-4525-9c74-742d5647d9e7?rule=$_59.AUTO' width='100px'><br>                     <b>Dekorative Lampe</b><br>                     Price: 9 €<br>                     Location: 45141 Essen - Stoppenberg<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/dekorative-lampe/3034808691-82-2057?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_dac076bc5c1283f8d4e38768e9ef8198.setContent(html_68ba5a3b1832f877c4344deceac76576);
+            
+        
+
+        marker_253dfd0e0f5acda27f4835f3fa88aeaa.bindPopup(popup_dac076bc5c1283f8d4e38768e9ef8198)
+        ;
+
+        
+    
+    
+            var marker_a6a3b90d2d6752bfa8c994308197ccdc = L.marker(
+                [51.326912899999996, 6.971831290684703],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_73563bce1e62c6e5dd4206a1cc0d4ce1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e5c4b666a39bd518f047e28ca2e6b0d5 = $(`<div id="html_e5c4b666a39bd518f047e28ca2e6b0d5" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b4/b44b52b2-a76b-45c3-9451-04c241d1edf8?rule=$_59.AUTO' width='100px'><br>                     <b>4 Stühle mit geflochtenem Sitzpolster sehr bequem</b><br>                     Price: 1 € VB<br>                     Location: 42579 Nordrhein-Westfalen - Heiligenhaus<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/4-stuehle-mit-geflochtenem-sitzpolster-sehr-bequem/3023371318-86-1180?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_73563bce1e62c6e5dd4206a1cc0d4ce1.setContent(html_e5c4b666a39bd518f047e28ca2e6b0d5);
+            
+        
+
+        marker_a6a3b90d2d6752bfa8c994308197ccdc.bindPopup(popup_73563bce1e62c6e5dd4206a1cc0d4ce1)
+        ;
+
+        
+    
+    
+            var marker_1d1e58d5102ad5748bbb18e73f72b73e = L.marker(
+                [51.2079601, 6.7760884],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_5cc79229f651df3eaa1d36d07c06d72f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eb18476e13eebff2ce32622a9626cd8d = $(`<div id="html_eb18476e13eebff2ce32622a9626cd8d" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/b0/b02d1125-4f19-494f-87f5-261ec494e1ad?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel alt antik Vintage Wandspiegel</b><br>                     Price: 10 €<br>                     Location: 40223 Düsseldorf - Bilk<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-alt-antik-vintage-wandspiegel/3038838899-240-2095?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_5cc79229f651df3eaa1d36d07c06d72f.setContent(html_eb18476e13eebff2ce32622a9626cd8d);
+            
+        
+
+        marker_1d1e58d5102ad5748bbb18e73f72b73e.bindPopup(popup_5cc79229f651df3eaa1d36d07c06d72f)
+        ;
+
+        
+    
+    
+            var marker_c99240f2f85a3e541d8ec68808f06d36 = L.marker(
+                [51.3063222, 12.4272991],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_f71b09431b739a201bdd235bda713a53 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1769f6b1f5c25c11f3942736342c17c7 = $(`<div id="html_1769f6b1f5c25c11f3942736342c17c7" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/ae/ae1ebe17-bc9a-4300-bd2a-4d6636cb4b9d?rule=$_59.AUTO' width='100px'><br>                     <b>Reserviert • 2 quadratische Wandboxen</b><br>                     Price: 25 € VB<br>                     Location: 04299 Leipzig - Probstheida<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/2-quadratische-wandboxen/3017925692-88-4262?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_f71b09431b739a201bdd235bda713a53.setContent(html_1769f6b1f5c25c11f3942736342c17c7);
+            
+        
+
+        marker_c99240f2f85a3e541d8ec68808f06d36.bindPopup(popup_f71b09431b739a201bdd235bda713a53)
+        ;
+
+        
+    
+    
+            var marker_6e4880e1b7f56e9b7a3c89e3452608b9 = L.marker(
+                [51.3817606, 7.006142632471238],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_90e981a7b24d66e3c316c65873a7763e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_196879e1c1fd2c4ee12eb8bb66ef808c = $(`<div id="html_196879e1c1fd2c4ee12eb8bb66ef808c" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/f7/f7f4a889-ab00-4152-bda9-d0ee238eb437?rule=$_59.AUTO' width='100px'><br>                     <b>Original Sofabank Müller Möbelwerkstätten Design: Rolf Heide</b><br>                     Price: 75 € VB<br>                     Location: 45239 Essen - Essen-Werden<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/original-sofabank-mueller-moebelwerkstaetten-design-rolf-heide/2999893221-88-2044?utm_source=copyToPasteboard&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_90e981a7b24d66e3c316c65873a7763e.setContent(html_196879e1c1fd2c4ee12eb8bb66ef808c);
+            
+        
+
+        marker_6e4880e1b7f56e9b7a3c89e3452608b9.bindPopup(popup_90e981a7b24d66e3c316c65873a7763e)
+        ;
+
+        
+    
+    
+            var marker_ff2657f5e6b65bd0cf8a34d728b9149e = L.marker(
+                [52.14927945, 8.823879660104168],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_f5f1c7840eb137aec3b1bc086d010ba5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_809cb2bc9ae769b6af4378a03e141df1 = $(`<div id="html_809cb2bc9ae769b6af4378a03e141df1" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/ae/aedf1729-87f9-4847-8c09-83e92d10d1df?rule=$_59.AUTO' width='100px'><br>                     <b>Spiegel Holz quadratisch von IKEA</b><br>                     Price: 20 €<br>                     Location: 32602 Nordrhein-Westfalen - Vlotho<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/spiegel-holz-quadratisch-von-ikea/3009886485-246-1200?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_f5f1c7840eb137aec3b1bc086d010ba5.setContent(html_809cb2bc9ae769b6af4378a03e141df1);
+            
+        
+
+        marker_ff2657f5e6b65bd0cf8a34d728b9149e.bindPopup(popup_f5f1c7840eb137aec3b1bc086d010ba5)
+        ;
+
+        
+    
+    
+            var marker_352da7b6d5d5ad696eae769ea336b963 = L.marker(
+                [52.2617079, 8.209233011677798],
+                {
+}
+            ).addTo(map_a81d8da4def11e0b4b7ba5285353bba3);
+        
+    
+        var popup_c2bf2d6f4146166fa4f57ec6f344715a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_df983c9909a86e4c596ed4e8a6bbc093 = $(`<div id="html_df983c9909a86e4c596ed4e8a6bbc093" style="width: 100.0%; height: 100.0%;">                     <img src='https://img.kleinanzeigen.de/api/v1/prod-ads/images/cc/cca3022a-cdd7-4ad7-b03b-ee4a2362ddd6?rule=$_59.AUTO' width='100px'><br>                     <b>2 Tische Couchtisch Beistelltisch</b><br>                     Price: 20 €<br>                     Location: 49143 Niedersachsen - Bissendorf<br>                     <a href='https://www.kleinanzeigen.de/s-anzeige/2-tische-couchtisch-beistelltisch/2908617707-88-3118?utm_source=whatsapp&utm_campaign=socialbuttons&utm_medium=social&utm_content=app_ios' target='_blank'>View Original Listing</a>                     </div>`)[0];
+                popup_c2bf2d6f4146166fa4f57ec6f344715a.setContent(html_df983c9909a86e4c596ed4e8a6bbc093);
+            
+        
+
+        marker_352da7b6d5d5ad696eae769ea336b963.bindPopup(popup_c2bf2d6f4146166fa4f57ec6f344715a)
+        ;
+
+        
+    
+</script>
+</html>
